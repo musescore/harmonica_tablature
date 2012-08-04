@@ -7,4 +7,4 @@ If you want to have your harmonica added to the it, please contact me, or better
 
 For more info see 
 
-   - The official project page http://musescore.org/en/project/harmonica_tablature
+   - The official project page http://musescore.org/en/project/harmonicatablature
