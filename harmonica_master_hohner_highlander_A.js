@@ -33,6 +33,7 @@ function applyFingerings(score, fingerings, shift)
       cursor.staff = 0;
       cursor.voice = 0;
       cursor.rewind();  // set cursor to first chord/rest
+      var font = new QFont("Courier New", 8);
       while (!cursor.eos()) {
             if (cursor.isChord()) {
                   var pitch = cursor.chord().topNote().pitch;
@@ -42,8 +43,9 @@ function applyFingerings(score, fingerings, shift)
                       if (textString.length > 0) {
                           var text  = new Text(curScore);
                           text.text = textString;
+                          text.defaultFont = font;
                           text.yOffset = 6;
-                          text.xOffset = -1;
+                          text.xOffset = -1.5;
                           cursor.putStaffText(text);
                           }
                       }
