@@ -5,6 +5,8 @@ This is a plugin for MuseScore 1.2 to add harmonica tablature notation below the
  * Diatonic D - [Reference](http://musescore.org/sites/musescore.org/files/Lee%20Oskar%20Diatonic%20D.jpg)
  * Diatonic G - [Reference](http://musescore.org/sites/musescore.org/files/Lee%20Oskar%20%20Diatonic%20G.jpg)
  * Diatonic Bb - [Reference](http://musescore.org/sites/musescore.org/files/Lee%20Oskar%20Diatonic%20Bb.jpg)
+ * Diatonic A - [Reference](http://harmopoint.com/harmonica-virtuel/)
+ * Diatonic F - [Reference](http://harmopoint.com/harmonica-virtuel/) 
  * Chromatic C, 12 holes - [Reference](http://musescore.org/sites/musescore.org/files/12%20Hole%20Chromatic%20slide%20Harmonica.txt)
 
 
