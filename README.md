@@ -8,6 +8,7 @@ This is a plugin for MuseScore 1.2 to add harmonica tablature notation below the
  * Diatonic A - [Reference](http://harmopoint.com/harmonica-virtuel/)
  * Diatonic F - [Reference](http://harmopoint.com/harmonica-virtuel/) 
  * Chromatic C, 12 holes - [Reference](http://musescore.org/sites/musescore.org/files/12%20Hole%20Chromatic%20slide%20Harmonica.txt)
+ * Chromatic C, 16 holes - [Reference](https://coast2coastmusic.com/chromatic/tuning_charts.shtml)
 
 
 If you want to have your harmonica added to the it, please contact me, or better, do a pull request.
