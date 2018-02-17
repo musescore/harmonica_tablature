@@ -21,7 +21,12 @@ MuseScore {
     description: "Harmonica Tab plugin"
     menuPath: "Plugins.Harmonica Tablature"
     pluginType: "dialog"
-    
+
+// ------ OPTIONS -------
+    property string sep : "\n"     // change to "," if you want tabs horizontally
+    property string bendChar : "b" // change to "'" if you want bend to be noted with a '
+// ------ OPTIONS -------
+
     id: window
     width:280
     height: 180
@@ -32,7 +37,7 @@ MuseScore {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 90
-        
+
         ComboBox {
             currentIndex: 17
             model: ListModel {
@@ -128,74 +133,74 @@ MuseScore {
             text: "Close"
             onClicked: { Qt.quit() }
         }
-        
+
     }
-    
+
     function tabNotes(notes, text) {
-        
+
         var richter = ["+1",  "-1b",  "-1", "+1o", "+2",  "-2bb",   "-2b",  "-2",   "-3bbb", "-3bb",  "-3b",   "-3",
         "+4",   "-4b",  "-4", "+4o", "+5",  "-5",     "+5o",  "+6",   "-6b",   "-6",    "+6o",   "-7",
         "+7",   "-7o",  "-8", "+8b", "+8",  "-9",     "+9b",  "+9",   "-9o",  "-10",   "+10bb",  "+10b",
         "+10", "-10o" ];    //Standard Richter tuning with overbends
-        
+
         var richterValved = ["+1",  "-1b",  "-1", "+2b", "+2",  "-2bb",   "-2b",  "-2",   "-3bbb", "-3bb",  "-3b",   "-3",
         "+4",   "-4b",  "-4", "+5b", "+5",  "-5",     "+6b",  "+6",   "-6b",   "-6",    "-7b",   "-7",
         "+7",   "-8b",  "-8", "+8b", "+8",  "-9",     "+9b",  "+9",   "-10b",  "-10",   "+10bb",  "+10b",
         "+10" ];
         richterValved[-2] = "+1bb"; richterValved[-1] = "+1b"; //Two notes below the key at blow 1
-        
+
         var paddyRichter = ["+1",  "-1b",  "-1", "+2b", "+2",  "-2bb",   "-2b",  "-2",   "+3b", "+3",  "-3b",   "-3",
         "+4",   "-4b",  "-4", "+5b", "+5",  "-5",     "+6b",  "+6",   "-6b",   "-6",    "-7b",   "-7",
         "+7",   "-8b",  "-8", "+8b", "+8",  "-9",     "+9b",  "+9",   "-10b",  "-10",   "+10bb",  "+10b",
         "+10" ];
         paddyRichter[-2] = "+1bb"; paddyRichter[-1] = "+1b"; //Two notes below the key at blow 1
                 // Brendan Power's tuning, half valved
-        
+
         var country = ["+1",  "-1b",  "-1", "+1o", "+2",  "-2bb",   "-2b",  "-2",   "-3bbb", "-3bb",  "-3b",   "-3",
         "+4",   "-4b",  "-4", "+4o", "+5",  "-5b",     "-5",  "+6",   "-6b",   "-6",    "+6o",   "-7",
         "+7",   "-7o",  "-8", "+8b", "+8",  "-9",     "+9b",  "+9",   "-9o",  "-10",   "+10bb",  "+10b",
         "+10", "-10o" ];
-        
+
         var standardChromatic = ["+1", '+1s', "-1", "-1s", "+2", "-2", "-2s", "+3", "+3s", "-3", "-3s","-4",
         "+4", "+4s", "-5", "-5s", "+6", "-6", "-6s", "+7",  "+7s", "-7", "-7s", "-8",
         "+8", "+8s", "-9", "-9s", "+10", "-10", "-10s", "+11", "+11s", "-11", "-11s", "-12",
         "+12", "+12s", "-12", "-12s" ];
-        
+
         var zirkValved = ["+1", "-1b", "-1", "+2b", "+2", "-2", "+3b", "+3", "-3b", "-3", "+4", "-4b",
         "-4", "+5b", "+5", "-5b", "-5", "+6", "-6b", "-6", "+7b", "+7", "-7", "+8b",
         "+8", "-8b", "-8", "+9b", "+9", "-9", "10b", "+10", "-10b", "-10" ]; // Circular/Spiral tuned diatonic
                 // Key per Seydel "G"on blow 1, C major at draw 2, A minor at draw 1
-        
+
         var trueChrom = ["+1", "-1b", "-1", "+2", "-2b", "-2", "+3b", "+3", "-3b", "-3", "+4", "-4b",
         "-4", "+5b", "+5", "-5b", "-5", "+6", "-6b", "-6", "+7b", "+7", "-7b", "-7",
         "+8", "-8b", "-8", "+9b", "+9", "-9b", "-9", "+10", "-10b", "-10" ];  //True Chromatic diatonic, valves
-            //Another side of the spiral logic is expanded in the “True Chromatic” tuning, designed by Eugene Ivanov. 
-            //All chords can be arranged in a continuous, looped progression on major and minor triads: 
+            //Another side of the spiral logic is expanded in the “True Chromatic” tuning, designed by Eugene Ivanov.
+            //All chords can be arranged in a continuous, looped progression on major and minor triads:
             //C Eb G Bb D F A C E G B D Gb A Db E Ab B Eb Gb Bb Db F Ab C (and looped on C minor after that).
-        
+
         var naturalMinor = ["+1",  "-1b",  "-1", "+2", "-2bbb",  "-2bb",   "-2b",  "-2",   "-3bb", "-3b",  "-3",   "+3o",
         "+4",   "-4b",  "-4", "+5", "-5b",  "-5",     "+5o",  "+6",   "-6b",   "-6",    "-7",   "+7b",
         "+7",   "-7o",  "-8", "+8", "-8o",  "-9",     "+9b",  "+9",   "-9o",  "-10",   "+10bb",  "+10b",
         "+10", "-10o" ];  //Labeled by blow 1 like Hohner. Seydel and Lee Okar labels by draw 2
-        
+
         var melodyMaker = [ , , , , , // label by draw 2
         "+1", "-1b", "-1", "+1o","+2", "-2bb","-2b", "-2", "+2o", "+3",  "-3b",   "-3",
         "+4",   "-4b",  "-4", "+4o", "+5",  "-5b",     "-5",  "+6",   "-6b",   "-6",    "+6o",   "-7",
         "+7",   "-7o",  "-8", "+8b", "+8",  "-8o",     "-9",  "+9",   "-9o",  "-10",   "+10bb",  "+10b",
-        "+10", "-10o" ];  
-        
+        "+10", "-10o" ];
+
         var spiral_b1 = ["+1", "-1b", "-1", "+2b", "+2", "-2", "+3b", "+3", "-3b", "-3", "+4b", "+4",
         "-4", "+5b", "+5", "-5b", "-5", "+6", "-6b", "-6", "+7b", "+7b", "-7", "-7",
         "+8", "-8b", "-8", "+9b", "+9", "-9", "+10b", "+10", "-10b", "-10" ]; // Circular/Spiral tuned diatonic
                 // Inversed for Blow 1. Key of C major scale starts at blow 1
-                
+
         var powerBender = ["+1",  "-1b",  "-1", "+2b", "+2",  "-2bb",   "-2b",  "-2",   "-3bbb", "-3bb",  "-3b",   "-3",
         "+4",   "-4b",  "-4", "-5b", "-5",  "+6",     "-6b",  "-6",   "+7b",   "+7",    "-7b",   "-7",
         "+8",   "-8b",  "-8", "+9b", "+9",  "-9bb",     "-9b",  "-9",   "+10b",  "+10",   "-10bb",  "-10b",
         "-10" ];
         powerBender[-2] = "+1bb"; powerBender[-1] = "+1b"; //Two notes below the key at blow 1
                 // Brendan Power's tuning, half valved
-        
+
         var powerDraw = ["+1",  "-1b",  "-1", "+2b", "+2",  "-2bb",   "-2b",  "-2",   "-3bbb", "-3bb",  "-3b",   "-3",
         "+4",   "-4b",  "-4", "+5b", "+5",  "-5",     "+6b",  "+6",   "-6b",   "-6",    "-7b",   "-7",
         "+8",   "-8b",  "-8", "+9b", "+9",  "-9bb",     "-9b",  "-9",   "+10b",  "+10",   "-10bb",  "-10b",
@@ -219,24 +224,28 @@ MuseScore {
             case 12: tuning = powerDraw; break;
             default: tuning = richter; break;
         }
-        
+
         var harpkey = keylist.key
-        console.log("harpkey set to  " +keylist.key)
-        
+        console.log("harpkey set to  " + keylist.key)
+
         for (var i = 0; i < notes.length; i++) {
-            var sep = "\n"; // change to "," if you want them horizontally
+
             if ( i > 0 )
                 text.text = sep + text.text;
-            
+
             if (typeof notes[i].pitch === "undefined") // just in case
                 return
-                if (typeof tuning[notes[i].pitch - harpkey] === "undefined")
-                    text.text = "X";
-                else
-                    text.text = tuning[notes[i].pitch - harpkey] + text.text;
+            var tab = tuning[notes[i].pitch - harpkey];
+            if (typeof tab === "undefined")
+                text.text = "X";
+            else {
+                if (bendChar !== "b")
+                    tab = tab.replace(/b/g, bendChar);
+                text.text = tab + text.text;
+                }
         }
     }
-    
+
     function applyToSelection(func) {
         if (typeof curScore === 'undefined')
             Qt.quit();
@@ -267,20 +276,20 @@ MuseScore {
             endStaff   = cursor.staffIdx;
         }
         console.log(startStaff + " - " + endStaff + " - " + endTick)
-        
+
         for (var staff = startStaff; staff <= endStaff; staff++) {
             for (var voice = 0; voice < 4; voice++) {
                 cursor.rewind(1); // beginning of selection
                 cursor.voice    = voice;
                 cursor.staffIdx = staff;
-                
+
                 if (fullScore)  // no selection
                     cursor.rewind(0); // beginning of score
-                    
+
                     while (cursor.segment && (fullScore || cursor.tick < endTick)) {
                         if (cursor.element && cursor.element.type == Element.CHORD) {
                             var text = newElement(Element.STAFF_TEXT);
-                            
+
                             var graceChords = cursor.element.graceNotes;
                             for (var i = 0; i < graceChords.length; i++) {
                                 // iterate through all grace chords
@@ -294,11 +303,11 @@ MuseScore {
                                 // new text for next element
                                 text  = newElement(Element.STAFF_TEXT);
                             }
-                            
+
                             var notes = cursor.element.notes;
                             tabNotes(notes, text);
                             text.pos.y = textposition;
-                            
+
                             if ((voice == 0) && (notes[0].pitch > 83))
                                 text.pos.x = 1;
                             cursor.add(text);
@@ -309,13 +318,13 @@ MuseScore {
         } // end for staff
         Qt.quit();
     } // end applyToSelection()
-    
+
     function apply() {
         curScore.startCmd()
         applyToSelection(tabNotes)
-        curScore.endCmd()          
+        curScore.endCmd()
     }
-    
+
     onRun: {
         if (typeof curScore === 'undefined')
             Qt.quit();
