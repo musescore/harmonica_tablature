@@ -24,7 +24,7 @@ MuseScore {
 
 // ------ OPTIONS -------
     property string sep : "\n"     // change to "," if you want tabs horizontally
-    property string bendChar : "b" // change to "'" if you want bend to be noted with a '
+    property string bendChar : "'" // change to "b" if you want bend to be noted with b
 // ------ OPTIONS -------
 
     id: window
