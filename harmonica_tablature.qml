@@ -17,8 +17,8 @@ import QtQuick.Layouts 1.1
 import MuseScore 1.0
 
 MuseScore {
-    version: "2.0"
-    description: "Harmonica Tab plugin"
+    version: "2.1"
+    description: "Harmonica Tab plugin\nhttps://github.com/lasconic/harmonica_tablature\nContributors: Lasconic, Thierz"
     menuPath: "Plugins.Harmonica Tablature"
     pluginType: "dialog"
 
