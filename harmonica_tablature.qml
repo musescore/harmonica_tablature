@@ -239,8 +239,12 @@ MuseScore {
             if (typeof tab === "undefined")
                 text.text = "X";
             else {
-                if (bendChar !== "b")
+				if (notes[i].tieBack != null) {
+					// Pas de tablature si la note est une note liée
+					tab = ""
+				} else if (bendChar !== "b") {
                     tab = tab.replace(/b/g, bendChar);
+				}
                 text.text = tab + text.text;
                 }
         }
