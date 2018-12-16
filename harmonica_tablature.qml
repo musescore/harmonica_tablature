@@ -17,8 +17,8 @@ import QtQuick.Layouts 1.1
 import MuseScore 1.0
 
 MuseScore {
-    version: "2.0"
-    description: "Harmonica Tab plugin"
+    version: "2.1"
+    description: "Harmonica Tab plugin\nhttps://github.com/lasconic/harmonica_tablature\nContributors: Lasconic, Thierz"
     menuPath: "Plugins.Harmonica Tablature"
     pluginType: "dialog"
 
@@ -100,7 +100,9 @@ MuseScore {
             }
         }
         ComboBox {
-            currentIndex: 1
+            currentIndex: 3
+            // Lower by default, prefered harp players' position
+            // Lower par défaut, position préférée des harmonicistes
             model: ListModel {
                 id: placetext
                 property var position
@@ -239,8 +241,13 @@ MuseScore {
             if (typeof tab === "undefined")
                 text.text = "X";
             else {
-                if (bendChar !== "b")
+                if (notes[i].tieBack != null) {
+                    // No tab if the note is tied
+                    // Pas de tablature si la note est une note liée
+                    tab = ""
+                } else if (bendChar !== "b") {
                     tab = tab.replace(/b/g, bendChar);
+                }
                 text.text = tab + text.text;
                 }
         }
