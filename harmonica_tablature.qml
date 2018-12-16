@@ -101,8 +101,8 @@ MuseScore {
         }
         ComboBox {
             currentIndex: 3
-			// Lower by default, prefered harp players' position
-			// Lower par défaut, position préférée des harmonicistes
+            // Lower by default, prefered harp players' position
+            // Lower par défaut, position préférée des harmonicistes
             model: ListModel {
                 id: placetext
                 property var position
@@ -241,13 +241,13 @@ MuseScore {
             if (typeof tab === "undefined")
                 text.text = "X";
             else {
-				if (notes[i].tieBack != null) {
-					// No tab if the note is tied
-					// Pas de tablature si la note est une note liée
-					tab = ""
-				} else if (bendChar !== "b") {
+                if (notes[i].tieBack != null) {
+                    // No tab if the note is tied
+                    // Pas de tablature si la note est une note liée
+                    tab = ""
+                } else if (bendChar !== "b") {
                     tab = tab.replace(/b/g, bendChar);
-				}
+                }
                 text.text = tab + text.text;
                 }
         }
