@@ -11,13 +11,13 @@
 //  the file LICENCE.GPL
 //=============================================================================
 
-import QtQuick 2.2
-import QtQuick.Controls 1.1
-import QtQuick.Layouts 1.1
-import MuseScore 1.0
+import QtQuick 2.9
+import QtQuick.Controls 1.5
+import QtQuick.Layouts 1.3
+import MuseScore 3.0
 
 MuseScore {
-    version: "2.0"
+    version: "3.0"
     description: "Harmonica Tab plugin"
     menuPath: "Plugins.Harmonica Tablature"
     pluginType: "dialog"
@@ -99,22 +99,20 @@ MuseScore {
                 harp.tuning = harp.get(currentIndex).tuning
             }
         }
-        ComboBox {
-            currentIndex: 1
-            model: ListModel {
-                id: placetext
-                property var position
-                ListElement { text: "Higher"; position: -2 }
-                ListElement { text: "Above staff"; position: 0 }
-                ListElement { text: "Below staff"; position: 10 }
-                ListElement { text: "Lower"; position: 12 }
-            }
-            width: 100
-            onCurrentIndexChanged: {
-                console.debug(placetext.get(currentIndex).text + ", " + placetext.get(currentIndex).position)
-                placetext.position = placetext.get(currentIndex).position
-            }
-        }
+        // ComboBox {
+        //     currentIndex: 1
+        //     model: ListModel {
+        //         id: placetext
+        //         property var position
+        //         ListElement { text: "Above staff"; position: "above" }
+        //         ListElement { text: "Below staff"; position: "below" }
+        //     }
+        //     width: 100
+        //     onCurrentIndexChanged: {
+        //         console.debug(placetext.get(currentIndex).text + ", " + placetext.get(currentIndex).position)
+        //         placetext.position = placetext.get(currentIndex).position
+        //     }
+        // }
     }
     RowLayout {
         anchors.horizontalCenter: parent.horizontalCenter
@@ -254,8 +252,10 @@ MuseScore {
         var endStaff;
         var endTick;
         var fullScore = false;
-        var textposition = placetext.position
-        console.log("textposition set to " +placetext.position)
+        // TODO : deal with placement
+        //var textposition = placetext.position
+        //console.log("textposition set to " + placetext.position)
+
         cursor.rewind(1);
         if (!cursor.segment) { // no selection
             fullScore = true;
@@ -295,10 +295,7 @@ MuseScore {
                                 // iterate through all grace chords
                                 var notes = graceChords[i].notes;
                                 tabNotes(notes, text);
-                                // there seems to be no way of knowing the exact horizontal pos.
-                                // of a grace note, so we have to guess:
-                                text.pos.x = -2.5 * (graceChords.length - i);
-                                text.pos.y = textposition;
+                                // TODO: deal with placement of grace note on the x axis
                                 cursor.add(text);
                                 // new text for next element
                                 text  = newElement(Element.STAFF_TEXT);
@@ -306,10 +303,7 @@ MuseScore {
 
                             var notes = cursor.element.notes;
                             tabNotes(notes, text);
-                            text.pos.y = textposition;
 
-                            if ((voice == 0) && (notes[0].pitch > 83))
-                                text.pos.x = 1;
                             cursor.add(text);
                         } // end if CHORD
                         cursor.next();
