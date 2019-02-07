@@ -296,7 +296,7 @@ MuseScore {
                                 tabNotes(notes, text);
                                 // TODO: deal with placement of grace note on the x axis
                                 text.placement = textposition
-                                text.offset = Qt.point(-40, 0)
+                                text.offset = Qt.point(-40 * (graceChords.length - i), 0)
                                 cursor.add(text);
                                 // new text for next element
                                 text  = newElement(Element.STAFF_TEXT);
