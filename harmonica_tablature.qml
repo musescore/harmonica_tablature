@@ -99,20 +99,20 @@ MuseScore {
                 harp.tuning = harp.get(currentIndex).tuning
             }
         }
-        // ComboBox {
-        //     currentIndex: 1
-        //     model: ListModel {
-        //         id: placetext
-        //         property var position
-        //         ListElement { text: "Above staff"; position: "above" }
-        //         ListElement { text: "Below staff"; position: "below" }
-        //     }
-        //     width: 100
-        //     onCurrentIndexChanged: {
-        //         console.debug(placetext.get(currentIndex).text + ", " + placetext.get(currentIndex).position)
-        //         placetext.position = placetext.get(currentIndex).position
-        //     }
-        // }
+        ComboBox {
+            currentIndex: 1
+            model: ListModel {
+                id: placetext
+                property var position
+                ListElement { text: "Above staff"; position: "above" }
+                ListElement { text: "Below staff"; position: "below" }
+            }
+            width: 100
+            onCurrentIndexChanged: {
+                console.debug(placetext.get(currentIndex).text + ", " + placetext.get(currentIndex).position)
+                placetext.position = placetext.get(currentIndex).position
+            }
+        }
     }
     RowLayout {
         anchors.horizontalCenter: parent.horizontalCenter
@@ -252,9 +252,8 @@ MuseScore {
         var endStaff;
         var endTick;
         var fullScore = false;
-        // TODO : deal with placement
-        //var textposition = placetext.position
-        //console.log("textposition set to " + placetext.position)
+
+        var textposition = (placetext.position === "above" ? Placement.ABOVE : Placement.BELOW);
 
         cursor.rewind(1);
         if (!cursor.segment) { // no selection
@@ -296,6 +295,8 @@ MuseScore {
                                 var notes = graceChords[i].notes;
                                 tabNotes(notes, text);
                                 // TODO: deal with placement of grace note on the x axis
+                                text.placement = textposition
+                                text.offset = Qt.point(-40, 0)
                                 cursor.add(text);
                                 // new text for next element
                                 text  = newElement(Element.STAFF_TEXT);
@@ -303,6 +304,7 @@ MuseScore {
 
                             var notes = cursor.element.notes;
                             tabNotes(notes, text);
+                            text.placement = textposition
 
                             cursor.add(text);
                         } // end if CHORD
