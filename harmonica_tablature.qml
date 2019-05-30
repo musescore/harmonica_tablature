@@ -68,6 +68,7 @@ MuseScore {
                 ListElement { text: "F"; harpkey: 65 }
                 ListElement { text: "F#"; harpkey: 66 }
                 ListElement { text: "High G"; harpkey: 67 }
+                ListElement { text: "ED C"; harpkey: 57 }
             }
             width: 100
             onCurrentIndexChanged: {
@@ -92,6 +93,7 @@ MuseScore {
                 ListElement { text: "Power Bender (Brendan Power), valved"; tuning: 11 }
                 ListElement { text: "Power Draw (Brendan Power), valved"; tuning: 12 }
                 ListElement { text: "Standard Chromatic"; tuning: 4 }
+                ListElement { text: "Standard Eeasy Diatonic (ED)"; tuning: 13 }
             }
             width: 100
             onCurrentIndexChanged: {
@@ -206,6 +208,10 @@ MuseScore {
         powerDraw[-2] = "+1bb"; powerDraw[-1] = "+1b"; //Two notes below the key at blow 1
                 // Brendan Power's tuning, half valved
 
+        var standardEasyDiatonic = ["+1", "-1b", "-1", "+2",  "-2b",  "-2", "+2o", "+3",  "-3bb",   "-3b",  "-3",   "+3o", "+4",  "-4b",   "-4",
+        "+5",   "-5b",  "-5", "+5o", "+6",  "-6b",     "-6b",  "-6",   "+6o",   "+7",    "-7b",   "-7",
+        "+8",   "-8b",  "-8", "+8b", "+9",  "-9bb",     "-9b",  "-9",   "+9o",  "+10", "-10b", "-10" ];  
+
         var tuning = richter
         switch (harp.tuning) {
             case 1: tuning = richter; break;
@@ -220,6 +226,7 @@ MuseScore {
             case 10: tuning = paddyRichter; break;
             case 11: tuning = powerBender; break;
             case 12: tuning = powerDraw; break;
+            case 13: tuning = standardEasyDiatonic; break;
             default: tuning = richter; break;
         }
 
