@@ -92,6 +92,7 @@ MuseScore {
                 ListElement { text: "Power Bender (Brendan Power), valved"; tuning: 11 }
                 ListElement { text: "Power Draw (Brendan Power), valved"; tuning: 12 }
                 ListElement { text: "Standard Chromatic"; tuning: 4 }
+                ListElement { text: "Tremolo 24 holes"; tuning: 13 }
             }
             width: 100
             onCurrentIndexChanged: {
@@ -206,6 +207,11 @@ MuseScore {
         powerDraw[-2] = "+1bb"; powerDraw[-1] = "+1b"; //Two notes below the key at blow 1
                 // Brendan Power's tuning, half valved
 
+        var tremolo24holes = ["+3", 'X', "-2", "X", "+5", "-4", "X", "+7", "X", "-6", "X","-8",
+        "+9", "X", "-10", "X", "+11", "-12", "X", "+13",  "X", "-14", "X", "-16",
+        "+15", "X", "-18", "X", "+17", "-20", "X", "+19", "X", "-22", "X", "-24",
+        "+21", "X", "-24", "X" ];
+
         var tuning = richter
         switch (harp.tuning) {
             case 1: tuning = richter; break;
@@ -220,6 +226,7 @@ MuseScore {
             case 10: tuning = paddyRichter; break;
             case 11: tuning = powerBender; break;
             case 12: tuning = powerDraw; break;
+            case 13: tuning = tremolo24holes; break;
             default: tuning = richter; break;
         }
 
