@@ -84,6 +84,7 @@ MuseScore {
                 ListElement { text: "Richter valved"; tuning: 2 }
                 ListElement { text: "Paddy Richter (Brendan Power), valved"; tuning: 10 }
                 ListElement { text: "Natural Minor"; tuning: 7 }
+                ListElement { text: "Harmonic Minor"; tuning: 13 }
                 ListElement { text: "Melody Maker"; tuning: 8 }
                 ListElement { text: "Country"; tuning: 3 }
                 ListElement { text: "Circular (Seydel), valved"; tuning: 5 }
@@ -181,6 +182,11 @@ MuseScore {
         "+7",   "-7o",  "-8", "+8", "-8o",  "-9",     "+9b",  "+9",   "-9o",  "-10",   "+10bb",  "+10b",
         "+10", "-10o" ];  //Labeled by blow 1 like Hohner. Seydel and Lee Okar labels by draw 2
 
+        var harmonicMinor = ["+1",  "-1b",  "-1", "+2", "-2bbb",  "-2bb",   "-2b",  "-2",   "-3bbb", "-3bb",  "-3b",   "-3",
+        "+4",   "-4b",  "-4", "+5", "-5b",  "-5",     "+5o",  "+6",   "-6",   "+6o", ,   "-7", 
+        "+7",   "-7o",  "-8", "+8", "-8o",  "-9",     "+9b",  "+9",   "-10",  "+10bbb",   "+10bb",  "+10b",
+        "+10", "-10o" ];  //Labeled by blow 1 like Hohner, Seydel and Lee Okar
+
         var melodyMaker = [ , , , , , // label by draw 2
         "+1", "-1b", "-1", "+1o","+2", "-2bb","-2b", "-2", "+2o", "+3",  "-3b",   "-3",
         "+4",   "-4b",  "-4", "+4o", "+5",  "-5b",     "-5",  "+6",   "-6b",   "-6",    "+6o",   "-7",
@@ -220,6 +226,7 @@ MuseScore {
             case 10: tuning = paddyRichter; break;
             case 11: tuning = powerBender; break;
             case 12: tuning = powerDraw; break;
+            case 13: tuning = harmonicMinor; break;
             default: tuning = richter; break;
         }
 
