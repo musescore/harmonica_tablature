@@ -89,8 +89,10 @@ MuseScore {
                 ListElement { text: "Circular (Seydel), valved"; tuning: 5 }
                 ListElement { text: "Circular (Inversed for blow 1), valved "; tuning: 9 }
                 ListElement { text: "TrueChromatic Diatonic, valved"; tuning: 6 }
-                ListElement { text: "Power Bender (Brendan Power), valved"; tuning: 11 }
-                ListElement { text: "Power Draw (Brendan Power), valved"; tuning: 12 }
+                ListElement { text: "Power Bender (Brendan Power)"; tuning: 13 }
+                ListElement { text: "Power Bender (Brendan Power), half valved"; tuning: 11 }
+                ListElement { text: "Power Draw (Brendan Power)"; tuning: 14 }
+                ListElement { text: "Power Draw (Brendan Power), half valved"; tuning: 12 }
                 ListElement { text: "Standard Chromatic"; tuning: 4 }
             }
             width: 100
@@ -131,7 +133,6 @@ MuseScore {
             text: "Close"
             onClicked: { Qt.quit() }
         }
-
     }
 
     function tabNotes(notes, text) {
@@ -192,18 +193,28 @@ MuseScore {
         "+8", "-8b", "-8", "+9b", "+9", "-9", "+10b", "+10", "-10b", "-10" ]; // Circular/Spiral tuned diatonic
                 // Inversed for Blow 1. Key of C major scale starts at blow 1
 
-        var powerBender = ["+1",  "-1b",  "-1", "+2b", "+2",  "-2bb",   "-2b",  "-2",   "-3bbb", "-3bb",  "-3b",   "-3",
+        var powerBenderHalfValved = ["+1",  "-1b",  "-1", "+2b", "+2",  "-2bb",   "-2b",  "-2",   "-3bbb", "-3bb",  "-3b",   "-3",
         "+4",   "-4b",  "-4", "-5b", "-5",  "+6",     "-6b",  "-6",   "+7b",   "+7",    "-7b",   "-7",
         "+8",   "-8b",  "-8", "+9b", "+9",  "-9bb",     "-9b",  "-9",   "+10b",  "+10",   "-10bb",  "-10b",
         "-10" ];
-        powerBender[-2] = "+1bb"; powerBender[-1] = "+1b"; //Two notes below the key at blow 1
+        powerBenderHalfValved[-2] = "+1bb"; powerBenderHalfValved[-1] = "+1b"; //Two notes below the key at blow 1
                 // Brendan Power's tuning, half valved
 
-        var powerDraw = ["+1",  "-1b",  "-1", "+2b", "+2",  "-2bb",   "-2b",  "-2",   "-3bbb", "-3bb",  "-3b",   "-3",
+        var powerBender = ["+1", "-1b","-1",  "+1o", "+2",  "-2bb",   "-2b",  "-2", "-3bbb", "-3bb",  "-3b",   "-3",
+        "+4",   "-4b",  "-4", "-5b", "-5",  "+6", "-6b",  "-6", , "+6o", "+7",  "-7b",   "-7",
+        "+8",   "-8b",  "-8","+8o", "+9",  "-9bb", "-9b",  "-9", "+9o", "+10",   "-10bb",  "-10b",
+        "-10","+10o" ];
+
+        var powerDraw = ["+1",  "-1b",  "-1", "+1o", "+2",  "-2bb",   "-2b",  "-2",   "-3bbb", "-3bb",  "-3b",   "-3",
+        "+4",   "-4b",  "-4", "+4o", "+5",  "-5",     "+5o",  "+6",   "-6b",   "-6",    "+6o", "+7",  "-7b",   "-7",
+        "+8",   "-8b",  "-8","+8o", "+9",  "-9bb", "-9b",  "-9", "+9o", "+10",   "-10bb",  "-10b",
+        "-10", "+10o"];
+
+        var powerDrawHalfValved = ["+1",  "-1b",  "-1", "+2b", "+2",  "-2bb",   "-2b",  "-2",   "-3bbb", "-3bb",  "-3b",   "-3",
         "+4",   "-4b",  "-4", "+5b", "+5",  "-5",     "+6b",  "+6",   "-6b",   "-6",    "-7b",   "-7",
         "+8",   "-8b",  "-8", "+9b", "+9",  "-9bb",     "-9b",  "-9",   "+10b",  "+10",   "-10bb",  "-10b",
         "-10" ];
-        powerDraw[-2] = "+1bb"; powerDraw[-1] = "+1b"; //Two notes below the key at blow 1
+        powerDrawHalfValved[-2] = "+1bb"; powerDrawHalfValved[-1] = "+1b"; //Two notes below the key at blow 1
                 // Brendan Power's tuning, half valved
 
         var tuning = richter
@@ -218,8 +229,10 @@ MuseScore {
             case 8: tuning = melodyMaker; break;
             case 9: tuning = spiral_b1; break;
             case 10: tuning = paddyRichter; break;
-            case 11: tuning = powerBender; break;
-            case 12: tuning = powerDraw; break;
+            case 11: tuning = powerBenderHalfValved; break;
+            case 12: tuning = powerDrawHalfValved; break;
+            case 13: tuning = powerBender; break;
+            case 14: tuning = powerDraw; break;
             default: tuning = richter; break;
         }
 
