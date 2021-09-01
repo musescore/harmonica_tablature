@@ -29,7 +29,7 @@ MuseScore {
 
     id: window
     width:280
-    height: 180
+    height: 250
     ColumnLayout {
         id: column
         anchors.margins : 10
@@ -38,101 +38,167 @@ MuseScore {
         anchors.right: parent.right
         height: 90
 
-        ComboBox {
-            currentIndex: 17
-            model: ListModel {
-                id: keylist
-                property var key
-                ListElement { text: "Low G"; harpkey: 43 }
-                ListElement { text: "Low Ab"; harpkey: 44 }
-                ListElement { text: "Low A"; harpkey: 45 }
-                ListElement { text: "Low Bb"; harpkey: 46 }
-                ListElement { text: "Low B"; harpkey: 47 }
-                ListElement { text: "Low C"; harpkey: 48 }
-                ListElement { text: "Low C#"; harpkey: 49 }
-                ListElement { text: "Low D"; harpkey: 50 }
-                ListElement { text: "Low Eb"; harpkey: 51 }
-                ListElement { text: "Low E"; harpkey: 52 }
-                ListElement { text: "Low F"; harpkey: 53 }
-                ListElement { text: "Low F#"; harpkey: 52 }
-                ListElement { text: "G"; harpkey: 55 }
-                ListElement { text: "Ab"; harpkey: 56 }
-                ListElement { text: "A"; harpkey: 57 }
-                ListElement { text: "Bb"; harpkey: 58 }
-                ListElement { text: "B"; harpkey: 59 }
-                ListElement { text: "C"; harpkey: 60 }
-                ListElement { text: "Db"; harpkey: 61 }
-                ListElement { text: "D"; harpkey: 62 }
-                ListElement { text: "Eb"; harpkey: 63 }
-                ListElement { text: "E"; harpkey: 64 }
-                ListElement { text: "F"; harpkey: 65 }
-                ListElement { text: "F#"; harpkey: 66 }
-                ListElement { text: "High G"; harpkey: 67 }
+        RowLayout
+        {
+            Label {
+                text: "Key"
             }
-            width: 100
-            onCurrentIndexChanged: {
-                console.debug(keylist.get(currentIndex).text + ", " + keylist.get(currentIndex).harpkey)
-                keylist.key = keylist.get(currentIndex).harpkey
+            ComboBox {
+                currentIndex: 17
+                model: ListModel {
+                    id: keylist
+                    property var key
+                    ListElement { text: "Low G"; harpkey: 43 }
+                    ListElement { text: "Low Ab"; harpkey: 44 }
+                    ListElement { text: "Low A"; harpkey: 45 }
+                    ListElement { text: "Low Bb"; harpkey: 46 }
+                    ListElement { text: "Low B"; harpkey: 47 }
+                    ListElement { text: "Low C"; harpkey: 48 }
+                    ListElement { text: "Low C#"; harpkey: 49 }
+                    ListElement { text: "Low D"; harpkey: 50 }
+                    ListElement { text: "Low Eb"; harpkey: 51 }
+                    ListElement { text: "Low E"; harpkey: 52 }
+                    ListElement { text: "Low F"; harpkey: 53 }
+                    ListElement { text: "Low F#"; harpkey: 52 }
+                    ListElement { text: "G"; harpkey: 55 }
+                    ListElement { text: "Ab"; harpkey: 56 }
+                    ListElement { text: "A"; harpkey: 57 }
+                    ListElement { text: "Bb"; harpkey: 58 }
+                    ListElement { text: "B"; harpkey: 59 }
+                    ListElement { text: "C"; harpkey: 60 }
+                    ListElement { text: "Db"; harpkey: 61 }
+                    ListElement { text: "D"; harpkey: 62 }
+                    ListElement { text: "Eb"; harpkey: 63 }
+                    ListElement { text: "E"; harpkey: 64 }
+                    ListElement { text: "F"; harpkey: 65 }
+                    ListElement { text: "F#"; harpkey: 66 }
+                    ListElement { text: "High G"; harpkey: 67 }
+                }
+                width: 100
+                onCurrentIndexChanged: {
+                    console.debug(keylist.get(currentIndex).text + ", " + keylist.get(currentIndex).harpkey)
+                    keylist.key = keylist.get(currentIndex).harpkey
+                }
             }
-        }
-        ComboBox {
-            currentIndex: 0
-            model: ListModel {
-                id: harp
-                property var tuning
-                ListElement { text: "Blues Harp (Richter)"; tuning: 1 }
-                ListElement { text: "Richter valved"; tuning: 2 }
-                ListElement { text: "Paddy Richter (Brendan Power), valved"; tuning: 10 }
-                ListElement { text: "Natural Minor"; tuning: 7 }
-                ListElement { text: "Melody Maker"; tuning: 8 }
-                ListElement { text: "Country"; tuning: 3 }
-                ListElement { text: "Circular (Seydel), valved"; tuning: 5 }
-                ListElement { text: "Circular (Inversed for blow 1), valved "; tuning: 9 }
-                ListElement { text: "TrueChromatic Diatonic, valved"; tuning: 6 }
-                ListElement { text: "Power Bender (Brendan Power), valved"; tuning: 11 }
-                ListElement { text: "Power Draw (Brendan Power), valved"; tuning: 12 }
-                ListElement { text: "Standard Chromatic"; tuning: 4 }
-            }
-            width: 100
-            onCurrentIndexChanged: {
-                console.debug(harp.get(currentIndex).text + ", " + harp.get(currentIndex).tuning)
-                harp.tuning = harp.get(currentIndex).tuning
-            }
-        }
-        ComboBox {
-            currentIndex: 1
-            model: ListModel {
-                id: placetext
-                property var position
-                ListElement { text: "Above staff"; position: "above" }
-                ListElement { text: "Below staff"; position: "below" }
-            }
-            width: 100
-            onCurrentIndexChanged: {
-                console.debug(placetext.get(currentIndex).text + ", " + placetext.get(currentIndex).position)
-                placetext.position = placetext.get(currentIndex).position
-            }
-        }
-    }
-    RowLayout {
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: column.bottom
-        height: 70
-        Button {
-            id: okButton
-            text: "Ok"
-            onClicked: {
-                apply()
-                Qt.quit()
-            }
-        }
-        Button {
-            id: closeButton
-            text: "Close"
-            onClicked: { Qt.quit() }
         }
 
+        RowLayout
+        {
+            Label {
+                text: "Tuning"
+            }
+            ComboBox {
+                currentIndex: 0
+                model: ListModel {
+                    id: harp
+                    property var tuning
+                    ListElement { text: "Blues Harp (Richter)"; tuning: 1 }
+                    ListElement { text: "Richter valved"; tuning: 2 }
+                    ListElement { text: "Paddy Richter (Brendan Power), valved"; tuning: 10 }
+                    ListElement { text: "Natural Minor"; tuning: 7 }
+                    ListElement { text: "Melody Maker"; tuning: 8 }
+                    ListElement { text: "Country"; tuning: 3 }
+                    ListElement { text: "Circular (Seydel), valved"; tuning: 5 }
+                    ListElement { text: "Circular (Inversed for blow 1), valved "; tuning: 9 }
+                    ListElement { text: "TrueChromatic Diatonic, valved"; tuning: 6 }
+                    ListElement { text: "Power Bender (Brendan Power), valved"; tuning: 11 }
+                    ListElement { text: "Power Draw (Brendan Power), valved"; tuning: 12 }
+                    ListElement { text: "Standard Chromatic"; tuning: 4 }
+                }
+                width: 100
+                onCurrentIndexChanged: {
+                    console.debug(harp.get(currentIndex).text + ", " + harp.get(currentIndex).tuning)
+                    harp.tuning = harp.get(currentIndex).tuning
+                }
+            }
+        }
+        RowLayout
+        {
+            Label {
+                text: "Placement"
+            }
+            ComboBox {
+                currentIndex: 1
+                model: ListModel {
+                    id: placetext
+                    property var position
+                    ListElement { text: "Above staff"; position: "above" }
+                    ListElement { text: "Below staff"; position: "below" }
+                }
+                width: 100
+                onCurrentIndexChanged: {
+                    console.debug(placetext.get(currentIndex).text + ", " + placetext.get(currentIndex).position)
+                    placetext.position = placetext.get(currentIndex).position
+                }
+            }
+        }
+        ColumnLayout {
+                Label {
+                    text: "Breath Indicator"
+                    font.underline: true
+                }
+                RowLayout {
+
+                Label {
+                    text: "Position"
+                }
+                ComboBox {
+                    currentIndex: 0
+                    model: ListModel {
+                        id: breathtext
+                        property var position
+                        ListElement { text: "Left of Hole #"; position: "left" }
+                        ListElement { text: "Right of Hole #"; position: "right" }
+                    }
+                    width: 100
+                    onCurrentIndexChanged: {
+                        console.debug(breathtext.get(currentIndex).text + ", " + breathtext.get(currentIndex).position)
+                        breathtext.position = breathtext.get(currentIndex).position
+                    }
+                }
+            }
+            RowLayout {
+                Label {
+                    text: "Shown"
+                }
+                ComboBox {
+                    currentIndex: 0
+                    model: ListModel {
+                        id: breathIndicator
+                        property var mode
+                        ListElement { text: "Both"; mode: "both" }
+                        ListElement { text: "Blow Only"; mode: "blow_only" }
+                        ListElement { text: "Draw Only"; mode: "draw_only" }
+                    }
+                    width: 100
+                    onCurrentIndexChanged: {
+                        console.debug(breathIndicator.get(currentIndex).text + ", " + breathIndicator.get(currentIndex).mode)
+                        breathIndicator.mode = breathIndicator.get(currentIndex).mode
+                    }
+                }
+            }
+        }
+
+        RowLayout {
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: 70
+            Button {
+                id: okButton
+                text: "Ok"
+                onClicked: {
+                    apply()
+                    Qt.quit()
+                }
+            }
+            Button {
+                id: closeButton
+                text: "Close"
+                onClicked: { Qt.quit() }
+            }
+        }
     }
+
+
 
     function tabNotes(notes, text) {
 
@@ -239,10 +305,51 @@ MuseScore {
             else {
                 if (bendChar !== "b")
                     tab = tab.replace(/b/g, bendChar);
+                tab = applyStyleToTabNotes(tab);
                 text.text = tab + text.text;
                 }
         }
     }
+
+    function positionBreathIndicator(tab) {
+         if(breathtext.position !== "right")
+            return tab;
+        // MuseScore doesn't appear to have a Regex library
+        // So, we do this a naive way.
+        // Assumes harmonicas have 1-99 holes.
+        var symbol = tab[0];
+        var isDoubleDigit = false;
+        if(tab.length >= 3)
+        {
+              // Is the third character a digit? 
+              for(var number = 0; number <= 9; number++) {
+                    isDoubleDigit = isDoubleDigit || tab[2] == number;
+              }                        
+        }            
+        
+        var newBreathIndex = isDoubleDigit ? 2 : 1;
+        var newString ="";
+        for(var index = 1; index < tab.length; index++) {
+            newString += tab[index]
+            if(index == newBreathIndex)
+                newString += symbol;
+         }
+        return newString;
+    }
+    function applyStyleToTabNotes(rawTab) {        
+        var finalTab = rawTab;
+                
+        finalTab = positionBreathIndicator(finalTab);
+
+        switch(breathIndicator.mode) {
+            case "draw_only": finalTab = finalTab.replace("+", ""); break;
+            case "blow_only": finalTab = finalTab.replace("-", ""); break;
+            default: finalTab = finalTab; break;
+        }
+
+        return finalTab;
+    }
+
 
     function applyToSelection(func) {
         if (typeof curScore === 'undefined')
