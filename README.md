@@ -23,7 +23,7 @@ If you want to have your harmonica added to the it, please contact me, or better
 * `+6o`   = overblow
 * `-9o`   = overdraw
 * `+4s`   = slide (chromatic)
-* `+1°`   = lower register in 16 holes chromatic (1°, 2°, 3°, 4°, 1, 2, 3, 4, 5, 6, 7 , 8, 9 ,10, 11, 12)
+* `+1*`   = lower register in 16 holes chromatic (1*, 2*, 3*, 4*, 1, 2, 3, 4, 5, 6, 7 , 8, 9 ,10, 11, 12)
 
 
 Bends, over blow, over draw may be supported if it's the only way to play the note.
