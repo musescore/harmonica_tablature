@@ -92,6 +92,7 @@ MuseScore {
                 ListElement { text: "Power Bender (Brendan Power), valved"; tuning: 11 }
                 ListElement { text: "Power Draw (Brendan Power), valved"; tuning: 12 }
                 ListElement { text: "Standard Chromatic"; tuning: 4 }
+                ListElement { text: "16 Hole Standard Chromatic"; tuning: 13}
             }
             width: 100
             onCurrentIndexChanged: {
@@ -162,7 +163,15 @@ MuseScore {
         var standardChromatic = ["+1", '+1s', "-1", "-1s", "+2", "-2", "-2s", "+3", "+3s", "-3", "-3s","-4",
         "+4", "+4s", "-5", "-5s", "+6", "-6", "-6s", "+7",  "+7s", "-7", "-7s", "-8",
         "+8", "+8s", "-9", "-9s", "+10", "-10", "-10s", "+11", "+11s", "-11", "-11s", "-12",
-        "+12", "+12s", "-12", "-12s" ];
+        "+12", "+12s", "-12s" ];
+
+        var standard16Chromatic = [
+            "+1*", '+1*s', "-1*", "-1*s", "+2*", "-2*", "-2*s", "+3*", "+3*s", "-3*", "-3*s","-4*",
+            "+1", '+1s', "-1", "-1s", "+2", "-2", "-2s", "+3", "+3s", "-3", "-3s","-4",
+            "+4", "+4s", "-5", "-5s", "+6", "-6", "-6s", "+7",  "+7s", "-7", "-7s", "-8",
+            "+8", "+8s", "-9", "-9s", "+10", "-10", "-10s", "+11", "+11s", "-11", "-11s", "-12",
+            "+12", "+12s", "-12s"
+        ];
 
         var zirkValved = ["+1", "-1b", "-1", "+2b", "+2", "-2", "+3b", "+3", "-3b", "-3", "+4", "-4b",
         "-4", "+5b", "+5", "-5b", "-5", "+6", "-6b", "-6", "+7b", "+7", "-7", "+8b",
@@ -220,11 +229,21 @@ MuseScore {
             case 10: tuning = paddyRichter; break;
             case 11: tuning = powerBender; break;
             case 12: tuning = powerDraw; break;
+            case 13: tuning = standard16Chromatic; break;
             default: tuning = richter; break;
         }
 
         var harpkey = keylist.key
         console.log("harpkey set to  " + keylist.key)
+
+        // For 16 Holes Standard C Chromatic
+        var C3 = 48;
+        var C4 = 60;
+        var chromatic16Tuning = 13;
+
+        if (harpkey == C4 && harp.tuning == chromatic16Tuning) {
+            harpkey = C3;
+        }
 
         for (var i = 0; i < notes.length; i++) {
 
