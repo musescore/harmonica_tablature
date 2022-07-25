@@ -11,13 +11,13 @@
 //  the file LICENCE.GPL
 //=============================================================================
 
-import QtQuick 2.2
-import QtQuick.Controls 1.1
-import QtQuick.Layouts 1.1
-import MuseScore 1.0
+import QtQuick 2.9
+import QtQuick.Controls 1.5
+import QtQuick.Layouts 1.3
+import MuseScore 3.0
 
 MuseScore {
-    version: "2.0"
+    version: "3.0"
     description: "Harmonica Tab plugin"
     menuPath: "Plugins.Harmonica Tablature"
     pluginType: "dialog"
@@ -92,6 +92,7 @@ MuseScore {
                 ListElement { text: "Power Bender (Brendan Power), valved"; tuning: 11 }
                 ListElement { text: "Power Draw (Brendan Power), valved"; tuning: 12 }
                 ListElement { text: "Standard Chromatic"; tuning: 4 }
+                ListElement { text: "16 Hole Chromatic"; tuning: 13 }
             }
             width: 100
             onCurrentIndexChanged: {
@@ -104,10 +105,8 @@ MuseScore {
             model: ListModel {
                 id: placetext
                 property var position
-                ListElement { text: "Higher"; position: -2 }
-                ListElement { text: "Above staff"; position: 0 }
-                ListElement { text: "Below staff"; position: 10 }
-                ListElement { text: "Lower"; position: 12 }
+                ListElement { text: "Above staff"; position: "above" }
+                ListElement { text: "Below staff"; position: "below" }
             }
             width: 100
             onCurrentIndexChanged: {
@@ -207,7 +206,13 @@ MuseScore {
         "-10" ];
         powerDraw[-2] = "+1bb"; powerDraw[-1] = "+1b"; //Two notes below the key at blow 1
                 // Brendan Power's tuning, half valved
-
+        var sixteenChromatic = ["+1`", '+1`s', "-1`", "-1`s", "+2`", "-2`", "-2`s", "+3`", "+3`s", "-3`", "-3`s","-4`", "+4`", "+4`s",
+        "+1", '+1s', "-1", "-1s", "+2", "-2", "-2s", "+3", "+3s", "-3", "-3s","-4",
+        "+4", "+4s", "-5", "-5s", "+6", "-6", "-6s", "+7",  "+7s", "-7", "-7s", "-8",
+        "+8", "+8s", "-9", "-9s", "+10", "-10", "-10s", "+11", "+11s", "-11", "-11s", "-12",
+        "+12", "+12s", "-12", "-12s" ];
+                
+                
         var tuning = richter
         switch (harp.tuning) {
             case 1: tuning = richter; break;
@@ -222,6 +227,7 @@ MuseScore {
             case 10: tuning = paddyRichter; break;
             case 11: tuning = powerBender; break;
             case 12: tuning = powerDraw; break;
+            case 13: tuning = sixteenChromatic; break;
             default: tuning = richter; break;
         }
 
@@ -254,8 +260,9 @@ MuseScore {
         var endStaff;
         var endTick;
         var fullScore = false;
-        var textposition = placetext.position
-        console.log("textposition set to " +placetext.position)
+
+        var textposition = (placetext.position === "above" ? Placement.ABOVE : Placement.BELOW);
+
         cursor.rewind(1);
         if (!cursor.segment) { // no selection
             fullScore = true;
@@ -295,10 +302,9 @@ MuseScore {
                                 // iterate through all grace chords
                                 var notes = graceChords[i].notes;
                                 tabNotes(notes, text);
-                                // there seems to be no way of knowing the exact horizontal pos.
-                                // of a grace note, so we have to guess:
-                                text.pos.x = -2.5 * (graceChords.length - i);
-                                text.pos.y = textposition;
+                                // TODO: deal with placement of grace note on the x axis
+                                text.placement = textposition
+                                text.offset = Qt.point(-40 * (graceChords.length - i), 0)
                                 cursor.add(text);
                                 // new text for next element
                                 text  = newElement(Element.STAFF_TEXT);
@@ -306,10 +312,8 @@ MuseScore {
 
                             var notes = cursor.element.notes;
                             tabNotes(notes, text);
-                            text.pos.y = textposition;
+                            text.placement = textposition
 
-                            if ((voice == 0) && (notes[0].pitch > 83))
-                                text.pos.x = 1;
                             cursor.add(text);
                         } // end if CHORD
                         cursor.next();
