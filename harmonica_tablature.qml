@@ -22,6 +22,14 @@ MuseScore {
     menuPath: "Plugins.Harmonica Tablature"
     pluginType: "dialog"
 
+    Component.onCompleted : {
+        if (mscoreMajorVersion >= 4) {
+           title = qsTr("cwHarmonica Tab") ;
+           // thumbnailName = ".png";
+           // categoryCode = "some_category";
+        }
+    }
+
 // ------ OPTIONS -------
     property string sep : "\n"     // change to "," if you want tabs horizontally
     property string bendChar : "'" // change to "b" if you want bend to be noted with b
@@ -124,13 +132,13 @@ MuseScore {
             text: "Ok"
             onClicked: {
                 apply()
-                Qt.quit()
+                quit()
             }
         }
         Button {
             id: closeButton
             text: "Close"
-            onClicked: { Qt.quit() }
+            onClicked: { quit() }
         }
 
     }
@@ -248,13 +256,13 @@ MuseScore {
                 if (bendChar !== "b")
                     tab = tab.replace(/b/g, bendChar);
                 text.text = tab + text.text;
-                }
+            }
         }
     }
 
     function applyToSelection(func) {
         if (typeof curScore === 'undefined')
-            Qt.quit();
+            quit();
         var cursor = curScore.newCursor();
         var startStaff;
         var endStaff;
@@ -293,34 +301,34 @@ MuseScore {
                 if (fullScore)  // no selection
                     cursor.rewind(0); // beginning of score
 
-                    while (cursor.segment && (fullScore || cursor.tick < endTick)) {
-                        if (cursor.element && cursor.element.type == Element.CHORD) {
-                            var text = newElement(Element.STAFF_TEXT);
+                while (cursor.segment && (fullScore || cursor.tick < endTick)) {
+                    if (cursor.element && cursor.element.type == Element.CHORD) {
+                        var text = newElement(Element.STAFF_TEXT);
 
-                            var graceChords = cursor.element.graceNotes;
-                            for (var i = 0; i < graceChords.length; i++) {
-                                // iterate through all grace chords
-                                var notes = graceChords[i].notes;
-                                tabNotes(notes, text);
-                                // TODO: deal with placement of grace note on the x axis
-                                text.placement = textposition
-                                text.offset = Qt.point(-40 * (graceChords.length - i), 0)
-                                cursor.add(text);
-                                // new text for next element
-                                text  = newElement(Element.STAFF_TEXT);
-                            }
-
-                            var notes = cursor.element.notes;
+                        var graceChords = cursor.element.graceNotes;
+                        for (var i = 0; i < graceChords.length; i++) {
+                            // iterate through all grace chords
+                            var notes = graceChords[i].notes;
                             tabNotes(notes, text);
+                            // TODO: deal with placement of grace note on the x axis
                             text.placement = textposition
-
+                            text.offset = Qt.point(-40 * (graceChords.length - i), 0)
                             cursor.add(text);
-                        } // end if CHORD
-                        cursor.next();
-                    } // end while segment
+                            // new text for next element
+                            text  = newElement(Element.STAFF_TEXT);
+                        }
+
+                        var notes = cursor.element.notes;
+                        tabNotes(notes, text);
+                        text.placement = textposition
+
+                        cursor.add(text);
+                    } // end if CHORD
+                    cursor.next();
+                } // end while segment
             } // end for voice
         } // end for staff
-        Qt.quit();
+        quit();
     } // end applyToSelection()
 
     function apply() {
@@ -331,6 +339,6 @@ MuseScore {
 
     onRun: {
         if (typeof curScore === 'undefined')
-            Qt.quit();
+            quit();
     }
 }
