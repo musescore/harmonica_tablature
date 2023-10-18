@@ -22,6 +22,14 @@ MuseScore {
     menuPath: "Plugins.Harmonica Tablature"
     pluginType: "dialog"
 
+    Component.onCompleted : {
+        if (mscoreMajorVersion >= 4) {
+           title = qsTr("cwHarmonica Tab") ;
+           // thumbnailName = ".png";
+           // categoryCode = "some_category";
+        }
+    }
+
 // ------ OPTIONS -------
     property string sep : "\n"     // change to "," if you want tabs horizontally
     property string bendChar : "'" // change to "b" if you want bend to be noted with b
@@ -92,6 +100,7 @@ MuseScore {
                 ListElement { text: "Power Bender (Brendan Power), valved"; tuning: 11 }
                 ListElement { text: "Power Draw (Brendan Power), valved"; tuning: 12 }
                 ListElement { text: "Standard Chromatic"; tuning: 4 }
+                ListElement { text: "Chromatic 16Hole"; tuning: 13 }
             }
             width: 100
             onCurrentIndexChanged: {
@@ -123,13 +132,13 @@ MuseScore {
             text: "Ok"
             onClicked: {
                 apply()
-                Qt.quit()
+                (typeof(quit) === 'undefined' ? Qt.quit : quit)()
             }
         }
         Button {
             id: closeButton
             text: "Close"
-            onClicked: { Qt.quit() }
+            onClicked: { (typeof(quit) === 'undefined' ? Qt.quit : quit)() }
         }
 
     }
@@ -206,6 +215,12 @@ MuseScore {
         powerDraw[-2] = "+1bb"; powerDraw[-1] = "+1b"; //Two notes below the key at blow 1
                 // Brendan Power's tuning, half valved
 
+        var chromatic16H = ["+1.", "+1.s", "-1.", "-1.s", "+2.", "-2.", "-2.s", "+3.", "+3.s", "-3.", "-3.s","-4.",
+         "+1", "+1s", "-1", "-1s", "+2", "-2", "-2s", "+3", "+3s", "-3", "-3s","-4",
+        "+4", "+4s", "-5", "-5s", "+6", "-6", "-6s", "+7",  "+7s", "-7", "-7s", "-8",
+        "+8", "+8s", "-9", "-9s", "+10", "-10", "-10s", "+11", "+11s", "-11", "-11s", "-12",
+        "+12", "+12s", "-12", "-12s" ];        
+
         var tuning = richter
         switch (harp.tuning) {
             case 1: tuning = richter; break;
@@ -220,6 +235,7 @@ MuseScore {
             case 10: tuning = paddyRichter; break;
             case 11: tuning = powerBender; break;
             case 12: tuning = powerDraw; break;
+            case 13: tuning = chromatic16H; break;
             default: tuning = richter; break;
         }
 
@@ -240,13 +256,13 @@ MuseScore {
                 if (bendChar !== "b")
                     tab = tab.replace(/b/g, bendChar);
                 text.text = tab + text.text;
-                }
+            }
         }
     }
 
     function applyToSelection(func) {
         if (typeof curScore === 'undefined')
-            Qt.quit();
+            (typeof(quit) === 'undefined' ? Qt.quit : quit)()
         var cursor = curScore.newCursor();
         var startStaff;
         var endStaff;
@@ -285,34 +301,34 @@ MuseScore {
                 if (fullScore)  // no selection
                     cursor.rewind(0); // beginning of score
 
-                    while (cursor.segment && (fullScore || cursor.tick < endTick)) {
-                        if (cursor.element && cursor.element.type == Element.CHORD) {
-                            var text = newElement(Element.STAFF_TEXT);
+                while (cursor.segment && (fullScore || cursor.tick < endTick)) {
+                    if (cursor.element && cursor.element.type == Element.CHORD) {
+                        var text = newElement(Element.STAFF_TEXT);
 
-                            var graceChords = cursor.element.graceNotes;
-                            for (var i = 0; i < graceChords.length; i++) {
-                                // iterate through all grace chords
-                                var notes = graceChords[i].notes;
-                                tabNotes(notes, text);
-                                // TODO: deal with placement of grace note on the x axis
-                                text.placement = textposition
-                                text.offset = Qt.point(-40 * (graceChords.length - i), 0)
-                                cursor.add(text);
-                                // new text for next element
-                                text  = newElement(Element.STAFF_TEXT);
-                            }
-
-                            var notes = cursor.element.notes;
+                        var graceChords = cursor.element.graceNotes;
+                        for (var i = 0; i < graceChords.length; i++) {
+                            // iterate through all grace chords
+                            var notes = graceChords[i].notes;
                             tabNotes(notes, text);
+                            // TODO: deal with placement of grace note on the x axis
                             text.placement = textposition
-
+                            text.offset = Qt.point(-40 * (graceChords.length - i), 0)
                             cursor.add(text);
-                        } // end if CHORD
-                        cursor.next();
-                    } // end while segment
+                            // new text for next element
+                            text  = newElement(Element.STAFF_TEXT);
+                        }
+
+                        var notes = cursor.element.notes;
+                        tabNotes(notes, text);
+                        text.placement = textposition
+
+                        cursor.add(text);
+                    } // end if CHORD
+                    cursor.next();
+                } // end while segment
             } // end for voice
         } // end for staff
-        Qt.quit();
+        (typeof(quit) === 'undefined' ? Qt.quit : quit)()
     } // end applyToSelection()
 
     function apply() {
@@ -323,6 +339,6 @@ MuseScore {
 
     onRun: {
         if (typeof curScore === 'undefined')
-            Qt.quit();
+            (typeof(quit) === 'undefined' ? Qt.quit : quit)()
     }
 }
