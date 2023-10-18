@@ -132,13 +132,13 @@ MuseScore {
             text: "Ok"
             onClicked: {
                 apply()
-                quit()
+                (typeof(quit) === 'undefined' ? Qt.quit : quit)()
             }
         }
         Button {
             id: closeButton
             text: "Close"
-            onClicked: { quit() }
+            onClicked: { (typeof(quit) === 'undefined' ? Qt.quit : quit)() }
         }
 
     }
@@ -262,7 +262,7 @@ MuseScore {
 
     function applyToSelection(func) {
         if (typeof curScore === 'undefined')
-            quit();
+            (typeof(quit) === 'undefined' ? Qt.quit : quit)()
         var cursor = curScore.newCursor();
         var startStaff;
         var endStaff;
@@ -328,7 +328,7 @@ MuseScore {
                 } // end while segment
             } // end for voice
         } // end for staff
-        quit();
+        (typeof(quit) === 'undefined' ? Qt.quit : quit)()
     } // end applyToSelection()
 
     function apply() {
@@ -339,6 +339,6 @@ MuseScore {
 
     onRun: {
         if (typeof curScore === 'undefined')
-            quit();
+            (typeof(quit) === 'undefined' ? Qt.quit : quit)()
     }
 }
